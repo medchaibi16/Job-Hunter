@@ -1,0 +1,26 @@
+{
+  "name": "Mohamed Chaibi",
+  "role_targets": [
+    "Software Engineering Intern",
+    "AI Research Intern",
+    "Backend Intern"
+  ],
+  "interests": [
+    "AI systems",
+    "human emotions",
+    "automation",
+    "research-driven software"
+  ],
+  "work_type": "remote",
+  "accepts_unpaid": true,
+  "accepts_paid": true,
+  "skills": [
+    "Python",
+    "Backend development",
+    "AI integration",
+    "System design",
+    "Problem solving"
+  ],
+  "experience_level": "student",
+  "availability": "immediate"
+}

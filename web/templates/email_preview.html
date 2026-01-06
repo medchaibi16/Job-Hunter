@@ -1,0 +1,473 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Your Email - Job Hunter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .job-info {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .job-title {
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .company-research {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #8b5cf6;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .research-title {
+            font-size: 1.2em;
+            color: #8b5cf6;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .research-content {
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .research-loading {
+            text-align: center;
+            padding: 40px;
+            color: #8b5cf6;
+        }
+
+        .spinner {
+            border: 4px solid rgba(139, 92, 246, 0.2);
+            border-top: 4px solid #8b5cf6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .email-editor {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #22c55e;
+        }
+
+        .editor-title {
+            font-size: 1.2em;
+            color: #22c55e;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .email-field {
+            margin-bottom: 20px;
+        }
+
+            .email-field label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: #d0d0d0;
+            }
+
+            .email-field input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid rgba(255,255,255,0.2);
+                border-radius: 8px;
+                font-size: 1em;
+                background: rgba(0,0,0,0.3);
+                color: #e0e0e0;
+            }
+
+        textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            line-height: 1.8;
+            resize: vertical;
+            background: rgba(0,0,0,0.3);
+            color: #e0e0e0;
+        }
+
+        .helper-text {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+            .btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+        .btn-enhance {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+            .btn-enhance:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+            }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+
+            .btn-copy:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+            }
+
+        .btn-back {
+            background: rgba(255,255,255,0.1);
+            color: #e0e0e0;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+            .btn-back:hover {
+                background: rgba(255,255,255,0.15);
+            }
+
+        .notice {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+            .notice.show {
+                display: block;
+            }
+
+            .notice.success {
+                background: rgba(34, 197, 94, 0.2);
+                color: #22c55e;
+                border: 1px solid #22c55e;
+            }
+
+            .notice.error {
+                background: rgba(239, 68, 68, 0.2);
+                color: #ef4444;
+                border: 1px solid #ef4444;
+            }
+
+            .notice.info {
+                background: rgba(102, 126, 234, 0.2);
+                color: #667eea;
+                border: 1px solid #667eea;
+            }
+
+        @media (max-width: 968px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✍️ Write Your Email</h1>
+            <p>Company research with Gemini • Write your draft • Enhance with AI • Copy to send manually</p>
+        </header>
+
+        <div class="job-info">
+            <div class="job-title">{{ job.title }}</div>
+            <div>🏢 {{ job.company }}</div>
+            <div style="margin-top: 5px;">📍 {{ job.location }}</div>
+            <div style="margin-top: 10px;">
+                <a href="{{ job.url }}" target="_blank" style="color: #667eea;">🔗 View Job Posting</a>
+            </div>
+        </div>
+
+        <div class="two-column">
+            <!-- Left: Company Research -->
+            <div class="company-research">
+                <div class="research-title">
+                    <span>🔍</span>
+                    <span>Company Research</span>
+                </div>
+
+                <div id="researchContent" class="research-content">
+                    <div class="research-loading">
+                        <div class="spinner"></div>
+                        <p>Researching {{ job.company }} with Gemini AI...</p>
+                        <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.7;">This may take a few seconds</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Email Editor -->
+            <div class="email-editor">
+                <div class="editor-title">
+                    <span>✉️</span>
+                    <span>Your Email Draft</span>
+                </div>
+
+                <div class="email-field">
+                    <label for="subject">📧 Subject Line</label>
+                    <input type="text"
+                           id="subject"
+                           name="subject"
+                           value="Application: {{ job.title }} - Mohamed Chaibi">
+                </div>
+
+                <div class="email-field">
+                    <label for="emailBody">✍️ Your Email</label>
+                    <textarea id="emailBody"
+                              placeholder="Write your email here...
+
+Use the company research on the left to personalize your message.
+
+Example:
+Hi there,
+
+I came across the {{ job.title }} role at {{ job.company }} and was immediately interested because...
+
+[Mention specific things about the company from research]
+
+My background includes:
+- Student Tutor: AI learning assistant (Node.js, Gemini AI)
+- dyncompressor: Custom compression system (C#)
+- Job Hunter: This AI tool that found this opportunity!
+
+Would love to discuss how I can contribute.
+
+Best,
+Mohamed Chaibi
+medchaibi965@proton.me
+github.com/medchaibi16"></textarea>
+                    <div class="helper-text">
+                        💡 Write naturally! Use the research on the left to mention specific things about the company.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="button"
+                    class="btn btn-enhance"
+                    id="enhanceBtn"
+                    onclick="enhanceEmail()">
+                <span>✨</span> Enhance with Gemini
+            </button>
+
+            <button type="button"
+                    class="btn btn-copy"
+                    onclick="copyEmailWithSubject()">
+                <span>📋</span> Copy Email + Subject
+            </button>
+
+            <a href="{{ url_for('index') }}" class="btn btn-back">
+                <span>◀</span> Back to Dashboard
+            </a>
+        </div>
+
+        <div class="notice" id="notice"></div>
+    </div>
+
+    <script>
+        // Load company research on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadCompanyResearch();
+        });
+
+        async function loadCompanyResearch() {
+            const jobId = {{ job_id }};
+
+            try {
+                const response = await fetch(`/research_company/${jobId}`);
+                const result = await response.json();
+
+                const researchContent = document.getElementById('researchContent');
+
+                if (result.success) {
+                    researchContent.innerHTML = `<div style="line-height: 1.8;">${result.research.replace(/\n/g, '<br>')}</div>`;
+                } else {
+                    researchContent.innerHTML = `<div style="color: #ef4444;">${result.research}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('researchContent').innerHTML =
+                    `<div style="color: #ef4444;">❌ Failed to load research: ${error.message}</div>`;
+            }
+        }
+
+        async function enhanceEmail() {
+            const emailBody = document.getElementById('emailBody').value.trim();
+
+            if (!emailBody) {
+                showNotice('Please write your email draft first!', 'error');
+                return;
+            }
+
+            const enhanceBtn = document.getElementById('enhanceBtn');
+            const originalText = enhanceBtn.innerHTML;
+
+            enhanceBtn.disabled = true;
+            enhanceBtn.innerHTML = '<span>⏳</span> Enhancing with Gemini...';
+
+            try {
+                const response = await fetch('/enhance_email', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email_text: emailBody})
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('emailBody').value = result.enhanced_email;
+                    showNotice('✅ Email enhanced! Review the changes and edit if needed.', 'success');
+                } else {
+                    showNotice(`⚠️ ${result.message}`, 'error');
+                }
+            } catch (error) {
+                showNotice(`❌ Enhancement failed: ${error.message}`, 'error');
+            } finally {
+                enhanceBtn.disabled = false;
+                enhanceBtn.innerHTML = originalText;
+            }
+        }
+
+        function copyEmailWithSubject() {
+            const subject = document.getElementById('subject').value;
+            const emailBody = document.getElementById('emailBody').value;
+
+            if (!emailBody.trim()) {
+                showNotice('Please write your email first!', 'error');
+                return;
+            }
+
+            const fullEmail = `Subject: ${subject}\n\n${emailBody}`;
+
+            navigator.clipboard.writeText(fullEmail).then(() => {
+                showNotice('✅ Email + Subject copied to clipboard! Open your email client and paste.', 'success');
+            }).catch(() => {
+                showNotice('❌ Failed to copy to clipboard', 'error');
+            });
+        }
+
+        function showNotice(message, type) {
+            const notice = document.getElementById('notice');
+            notice.textContent = message;
+            notice.className = `notice show ${type}`;
+
+            setTimeout(() => {
+                notice.classList.remove('show');
+            }, 5000);
+        }
+    </script>
+</body>
+</html> 
