@@ -7,6 +7,9 @@ An intelligent, self-learning job discovery system that autonomously finds AI/ML
 Job Hunter is an AI-powered application that automates the entire job search pipeline - from discovery to application. Built specifically to solve the challenge of finding remote AI/ML internships from Tunisia, it demonstrates production-ready AI system design with continuous learning and autonomous operation.
 
 ## Core AI/ML Technologies
+<img width="1808" height="593" alt="pic one" src="https://github.com/user-attachments/assets/9b025c44-7da3-4f04-907e-d9a41e227463" />
+<img width="1630" height="894" alt="pic 2" src="https://github.com/user-attachments/assets/c4af38e9-c9e2-4f90-93a9-7df1c2e470d4" />
+<img width="1057" height="913" alt="pic3" src="https://github.com/user-attachments/assets/acd833b9-0031-4854-bf73-bffd347b8a85" />
 
 **Large Language Model Integration**
 - Google Gemini API for natural language processing and generation
@@ -27,6 +30,8 @@ Job Hunter is an AI-powered application that automates the entire job search pip
 - Continuous model improvement with each user decision
 
 **Autonomous Agent Architecture**
+<img width="341" height="734" alt="Untitled Diagram-Page-8 drawio" src="https://github.com/user-attachments/assets/4e864f2d-0bf0-4110-afa0-c51e11650510" />
+
 - Self-running background scheduler with configurable intervals
 - Automated search execution across multiple sources
 - Adaptive strategy based on success metrics
